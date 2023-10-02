@@ -1,6 +1,7 @@
 import { exec } from '@actions/exec';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
 import path from 'path';
+import * as core from '@actions/core';
 
 export async function runLicenseCheck({
   allowedLicenses,
@@ -38,6 +39,8 @@ export async function runLicenseCheck({
     ],
     options
   );
+
+  core.info(`CWD: ${options.cwd}`)
 
   if (stderr.length > 0) {
     throw new Error(stderr);
