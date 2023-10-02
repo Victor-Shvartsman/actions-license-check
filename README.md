@@ -1,4 +1,5 @@
-# tangro/actions-license-check
+# Victor-Shvartsman/infra-actions-license-check
+Forked from tangro/actions-license-check to change some specific defaults.
 
 A @tangro action to check whether a dependency uses an allowed license. We use [license-checker](https://www.npmjs.com/package/license-checker) to retrieve the license of the dependencies.
 

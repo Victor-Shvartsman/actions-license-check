@@ -1,23 +1,21 @@
 import { exec } from '@actions/exec';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
-import { GitHubContext } from '@tangro/tangro-github-toolkit';
 import path from 'path';
 
 export async function runLicenseCheck({
-  context,
-  allowedLicenses
+  allowedLicenses,
+  subDir
 }: {
-  context: GitHubContext<{}>;
   allowedLicenses: string;
+  subDir: string;
 }) {
-  const [owner, repo] = context.repository.split('/');
 
   let stdout = '';
   let stderr = '';
 
   const options: ExecOptions = {
     ignoreReturnCode: true,
-    cwd: path.join(process.env.RUNNER_WORKSPACE as string, repo),
+    cwd: path.join(process.env.RUNNER_WORKSPACE as string, subDir),
     listeners: {
       stdout: data => {
         stdout += data.toString();
