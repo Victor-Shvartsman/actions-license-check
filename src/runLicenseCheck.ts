@@ -20,10 +20,14 @@ export async function runLicenseCheck({
     cwd: path.join(process.env.RUNNER_WORKSPACE as string, repo, subDir),
     listeners: {
       stdout: data => {
+        stdout = '';
         stdout += data.toString();
+        core.info(`stdout debug: ${stdout}`)
       },
       stderr: data => {
+        stderr = '';
         stderr += data.toString();
+        core.info(`stderr debug: ${stderr}`)
       }
     }
   };
