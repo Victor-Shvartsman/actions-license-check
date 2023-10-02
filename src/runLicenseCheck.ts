@@ -16,7 +16,7 @@ export async function runLicenseCheck({
   const [owner, repo] = (process.env.REPOSITORY as string).split('/');
 
   const options: ExecOptions = {
-    ignoreReturnCode: true,
+    //ignoreReturnCode: true,
     cwd: path.join(process.env.RUNNER_WORKSPACE as string, repo, subDir),
     listeners: {
       stdout: data => {
@@ -31,28 +31,25 @@ export async function runLicenseCheck({
       }
     }
   };
+  try {
+    await exec(
+      'npx',
+      [
+        '-q',
+        '--yes',
+        'license-checker',
+        '--production',
+        '--json',
+        `--onlyAllow=${allowedLicenses}`
+      ],
+      options
+    );
+    core.info(`CWD: ${options.cwd}`)
+    core.info(`stdout: ${stdout}`)
+    core.info(`stderr: ${stderr}`)
 
-  await exec(
-    'npx',
-    [
-      '-q',
-      '--yes',
-      'license-checker',
-      '--production',
-      '--json',
-      `--onlyAllow=${allowedLicenses}`
-    ],
-    options
-  );
-
-  core.info(`CWD: ${options.cwd}`)
-  core.info(`stdout: ${stdout}`)
-  core.info(`stderr: ${stderr}`)
-
-
-  if (stderr.length > 0) {
-    throw new Error(stderr);
-  } else {
     return stdout;
+  } catch (error) {
+    throw new Error(stderr);
   }
 }
