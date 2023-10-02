@@ -1,7 +1,6 @@
 import { exec } from '@actions/exec';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
 import path from 'path';
-import * as core from '@actions/core';
 
 export async function runLicenseCheck({
   allowedLicenses,
@@ -20,14 +19,10 @@ export async function runLicenseCheck({
     cwd: path.join(process.env.RUNNER_WORKSPACE as string, repo, subDir),
     listeners: {
       stdout: data => {
-        stdout = '';
         stdout += data.toString();
-        core.info(`stdout debug: ${stdout}`)
       },
       stderr: data => {
-        stderr = '';
         stderr += data.toString();
-        core.info(`stderr debug: ${stderr}`)
       }
     }
   };
@@ -44,9 +39,6 @@ export async function runLicenseCheck({
       ],
       options
     );
-    core.info(`CWD: ${options.cwd}`)
-    core.info(`stdout: ${stdout}`)
-    core.info(`stderr: ${stderr}`)
 
     return stdout;
   } catch (error) {
