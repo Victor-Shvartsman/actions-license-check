@@ -5,9 +5,11 @@ import { runLicenseCheck } from './runLicenseCheck';
 
 async function run() {
   try {
-    await (async () => {
+
       const allowedLicenses = core.getInput('allowed-licenses');
+      //const allowedLicenses = "MIT; ISC; Apache-2.0; BlueOak-1.0.0"
       const subDir = core.getInput('sub-dir');
+      //const subDir = '.';
       const output = await runLicenseCheck({ allowedLicenses, subDir });
       fs.mkdirSync('license-check');
       fs.writeFileSync(
@@ -21,7 +23,7 @@ async function run() {
         shortText: 'All used licenses are allowed',
         text: output
       };
-    });
+
   } catch (error: any) {
     core.setFailed(error.message);
     fs.mkdirSync('license-check');
