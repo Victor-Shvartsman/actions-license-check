@@ -42,6 +42,9 @@ export async function runLicenseCheck({
   );
 
   core.info(`CWD: ${options.cwd}`)
+  core.info(`stdout: ${stdout}`)
+  core.info(`stderr: ${stderr}`)
+
 
   if (stderr.length > 0) {
     throw new Error(stderr);
