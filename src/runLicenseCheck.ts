@@ -13,10 +13,11 @@ export async function runLicenseCheck({
 
   let stdout = '';
   let stderr = '';
+  const [owner, repo] = (process.env.RUNNER_REPOSITORY as string).split('/');
 
   const options: ExecOptions = {
     ignoreReturnCode: true,
-    cwd: path.join(process.env.RUNNER_WORKSPACE as string, subDir),
+    cwd: path.join(process.env.RUNNER_WORKSPACE as string, repo, subDir),
     listeners: {
       stdout: data => {
         stdout += data.toString();
