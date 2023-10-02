@@ -8,14 +8,9 @@ By default these licenses are allowed:
 - `MIT`
 - `Apache-2.0`
 - `ISC`
-- `Custom: https://www.telerik.com/kendo-angular-ui/`
 - `BSD`
 
 > **Important** We only check production dependencies and only 0 direct production dependencies
-
-# Version
-
-You can use a specific `version` of this action. The latest published version is `v1.0.14`. You can also use `latest` to always get the latest version.
 
 # Example job
 
@@ -36,13 +31,12 @@ license-check:
     - name: Check licenses
       uses: tangro/actions-license-check@v1.0.14
       with:
-        allowed-licenses: 'MIT; ISC; Apache-2.0; Custom: https://www.telerik.com/kendo-angular-ui/; Custom: https://www.telerik.com/kendo-react-ui/; BSD'
+        allowed-licenses: 'MIT; ISC; Apache-2.0; BSD'
+        sub-dir: '.'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_CONTEXT: ${{ toJson(github) }}
+        RUNNER_WORKSPACE: ${{ github.workspace }}
+        REPOSITORY: ${{ github.repository }}
 ```
-
-> **Attention** Do not forget to pass `GITHUB_TOKEN` and `GITHUB_CONTEXT`
 
 Steps this example job will perform:
 
@@ -54,8 +48,6 @@ Steps this example job will perform:
 # Usage
 
 This action will run `npx license-checker --production --json --onlyAllow=${allowedLicenses}` to check the licenses.
-
-This action will set a status to the commit to `pending` under the context `Tangro CI/license-check`. When it finishes successfully it will change the status to `success` and the license-check result will be displayed in the description. If the license check fails the status will set the status to `failed`.
 
 The action will write the data to `./license-check/index.html`. This file can be deployed to a static file server.
 
@@ -109,3 +101,4 @@ license-check:
 # Arguments
 
 You have to specify the allowed licenses with `allowed-licenses`. They have to be separated by a semicolon.
+You have to specify `sub-dir` path to check the project in sub folder
